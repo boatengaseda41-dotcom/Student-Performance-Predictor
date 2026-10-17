@@ -63,10 +63,25 @@ with st.form("student_form"):
     submitted = st.form_submit_button("Predict final grade")
 
 if submitted:
-    inputs = pd.DataFrame(
-        [[studytime, failures, absences, g1, g2]],
-        columns=features,
+    valid_inputs = (
+        studytime in [1, 2, 3, 4]
+        and 0 <= failures <= 4
+        and 0 <= absences <= 93
+        and 0 <= g1 <= 20
+        and 0 <= g2 <= 20
     )
+
+    if not valid_inputs:
+        st.error("Please check your inputs and try again.")
+
+    else:
+        inputs = pd.DataFrame(
+            [[studytime, failures, absences, g1, g2]],
+            columns=features,
+        )
+
+
+
 
     prediction = float(model.predict(inputs)[0])
     prediction = max(0, min(20, prediction))
