@@ -86,7 +86,11 @@ if submitted:
     prediction = float(model.predict(inputs)[0])
     prediction = max(0, min(20, prediction))
 
-    st.metric("Predicted final grade", f"{prediction:.1f} / 20")
+   st.metric(
+    "Predicted final grade",
+    f"{prediction:.1f} / 20",
+    delta=f"{prediction - 10:.1f} points from passing grade"
+)
 
     st.caption(
         "This is an estimate, not a guarantee. "
